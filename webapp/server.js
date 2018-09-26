@@ -52,7 +52,7 @@ var networkInterfaces = os.networkInterfaces();
 var request = require('supertest');
 var Transform = require('stream').Transform;
 var forever = require('forever');
-var port = 80;
+var port = 5000;
 var service_url = 'http://' + (
         process.env.npm_config_serviceUrl
         || process.env.npm_package_config_serviceUrl
