@@ -13,5 +13,8 @@
     "forever": "^0.15.3",
     "java": "^0.10.0",
     "supertest": "^3.3.0"
-  }
+  }, 
+   "config":{
+      "serviceUrl": "bcp.metacontext.tech"
+   }
 }
