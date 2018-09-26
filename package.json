@@ -12,9 +12,11 @@
     "express": "^4.16.3",
     "forever": "^0.15.3",
     "java": "^0.10.0",
+    "jquery": "^3.3.1",
+    "socket.io-client": "^2.1.1",
     "supertest": "^3.3.0"
-  }, 
-   "config":{
-      "serviceUrl": "bcp.metacontext.tech"
-   }
+  },
+  "config": {
+    "serviceUrl": "bcp.metacontext.tech"
+  }
 }

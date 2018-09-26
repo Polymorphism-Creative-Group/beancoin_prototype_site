@@ -31,6 +31,7 @@ java.classpath.push('target/classes');
  */
 var bcp = 'tech.metacontext.beancoin.common.';
 var API = java.callStaticMethodSync(bcp + 'intf.APIImpl', 'getInstance');
+var CLIENT = java.import('tech.metacontext.beancoin.client.Join');
 var Settings = java.import(bcp + 'Settings');
 var JsonObject = java.import('org.json.JSONObject');
 
@@ -50,7 +51,7 @@ function getIncomingParams(arr) {
 var os = require('os');
 var networkInterfaces = os.networkInterfaces();
 var request = require('supertest');
-var Transform = require('stream').Transform;
+//var Transform = require('stream').Transform;
 var forever = require('forever');
 var port = 5000;
 var service_url = 'http://' + (
@@ -63,7 +64,6 @@ var service_url = 'http://' + (
  */
 var path = require('path');
 var express = require('express');
-
 var app = express();
 app.use(express.json());
 app.use(function (req, res, next) {
@@ -73,6 +73,8 @@ app.use(function (req, res, next) {
    res.setHeader('Access-Control-Allow-Credentials', true);
    next();
 })
+        .use('/',
+                express.static(path.join(__dirname, '/')))
         .use('/css',
                 express.static(path.join(__dirname, '/./css')))
         .use('/images',
@@ -81,23 +83,31 @@ app.use(function (req, res, next) {
                 express.static(path.join(__dirname, '/./js')))
         .use('/node_modules',
                 express.static(path.join(__dirname, '/../node_modules')));
-
 var commands = {
+   test:
+           {route: "/test", method: "GET", handler: _test},
 
    createFarmer:
            {route: "/createFarmer", method: "POST", handler: _createFarmer},
    getFarmer:
-           {route: "/gp/:id", method: "GET", handler: _getFarmer},
+           {route: "/getFarmer", method: "GET", handler: _getFarmer},
+   produceCrop:
+           {route: "/produceCrop", method: "GET", handler: _produceCrop},
+   getManagementInfo:
+           {route: "/getManagementInfo", method: "GET", handler: _getManagementInfo},
+   manageMaterial:
+           {route: "/manageMaterial", method: "GET", handler: _manageMaterial},
+   equipIoT:
+           {route: "/equipIoT", method: "GET", handler: _equipIoT},
    getMembers:
            {route: "/getMembers", method: "GET", handler: _getMembers},
    getTransactions:
            {route: "/getTransactions", method: "GET", handler: _getTransactions},
-   register:
-           {route: "/", method: "POST", handler: _register},
    setBeanCoinRatio:
-           {route: "/bot/:id", method: "GET", handler: _setBeanCoinRatio},
-   test:
-           {route: "/test", method: "GET", handler: _test},
+           {route: "/setBeanCoinRatio", method: "GET", handler: _setBeanCoinRatio},
+
+   client:
+           {route: "/client", method: "GET", handler: _client},
    undefined:
            {route: "/:page?", method: "GET", handler: _default},
 
@@ -121,8 +131,6 @@ Object.keys(commands).forEach((key) => {
    }
 });
 
-
-
 function _createFarmer(req, res) {
    var params = getIncomingParams(req.body);
    var retVal = JSON.parse(API.createSessionSync(params));
@@ -130,77 +138,65 @@ function _createFarmer(req, res) {
 }
 
 function _getFarmer(req, res) {
-   var id = req.params.id;
-   var params = getIncomingParams(req.query).putSync('id', id);
-   var retVal = JSON.parse(API.gamePlaySync(params));
-   if (retVal.error) {
-      res.send(retVal);
-   } else {
-      var session_id = retVal.session_id;
-      var bot_id = retVal.bot_id;
-      var title = retVal.title;
-      var description = retVal.description;
-      var hashcode = retVal.hashcode;
-      var questionaire = 'https://docs.google.com/forms/d/e/1FAIpQLSfJp_2eClROlSundBdQHCbcA3ykSmT590D-hgBQgIJDmO8Hcw/viewform?entry.873951504=';
-//                      'https://goo.gl/forms/ykI3IPfCiGJABeQg2'
-      res.write('<!-- Begin stream -->\n');
-      fs.createReadStream(path.join(__dirname, '/index.html'))
-              .pipe(getParser(session_id, bot_id, title, description, hashcode, questionaire))
-              .on('end', () => res.write('\n<!-- End stream -->'))
-              .pipe(res);
-   }
-
-   function getParser(session_id, bot_id, title, description, hashcode, questionaire) {
-      var parser = new Transform();
-      parser._transform = function (data, encoding, done) {
-         const str = data.toString()
-                 .replace('{{service_url}}', service_url)
-                 .replace('{{session_id}}', session_id)
-                 .replace('{{bot_id}}', bot_id)
-                 .replace('{{title}}', title)
-                 .replace('{{description}}', description)
-                 .replace('{{hashcode}}', hashcode)
-                 .replace('{{questionaire}}', questionaire);
-         this.push(str);
-         done();
-      };
-      return parser;
-   }
+   var params = getIncomingParams(req.query);
+   var retVal = JSON.parse(API.getFarmerSync(params));
+   res.send(retVal);
 }
 
-function _register(req, res) {
-   var bot_list = JSON.parse(API.listAvailableBotsSync());
-   res.send(bot_list);
+function _produceCrop(req, res) {
+   var params = getIncomingParams(req.query);
+   var retVal = JSON.parse(API.produceCropSync(params));
+   res.send(retVal);
 }
 
-function _setBeanCoinRatio(req, res) {
-   var id = req.params.id;
-   var bot_session = JSON.parse(API.createSessionSync(id, Settings.Mode.PUBLISH));
-   res.send(bot_session);
+function _getManagementInfo(req, res) {
+   var params = getIncomingParams(req.query);
+   var retVal = JSON.parse(API.getManagementInfoSync(params));
+   res.send(retVal);
+}
+
+function _manageMaterial(req, res) {
+   var params = getIncomingParams(req.query);
+   var retVal = JSON.parse(API.manageMaterialSync(params));
+   res.send(retVal);
+}
+
+function _equipIoT(req, res) {
+   var params = getIncomingParams(req.query);
+   var retVal = JSON.parse(API.equipIoTSync(params));
+   res.send(retVal);
 }
 
 function _getMembers(req, res) {
-   var params = new JsonObject();
+   var params = getIncomingParams(req.query);
    var result = JSON.parse(API.getMembersSync(params));
    log(JSON.stringify(result));
    res.send(result);
 }
 
 function _getTransactions(req, res) {
-   var params = new JsonObject();
+   var params = getIncomingParams(req.query);
    var result = JSON.parse(API.getTransactionsSync(params));
    log(JSON.stringify(result));
    res.send(result);
 }
 
+function _setBeanCoinRatio(req, res) {
+   var params = getIncomingParams(req.query);
+   var result = JSON.parse(API.setBeanCoinRatioSync(params));
+   res.send(result);
+}
+
 function _test(req, res) {
-   var params = new JsonObject();
-   var size = 10.0;
-   for (var j = 0; j < 5; j++) {
-      var farmer = JSON.parse(API.createFarmerSync(params.putSync("size", size)));
+   var member = (req.query.member) ? req.query.member : 5;
+   var produce = (req.query.produce) ? req.query.produce : 10;
+   for (var j = 0; j < member; j++) {
+      var size = j + 1.0;
+      var params = new JsonObject().putSync("size", size);
+      var farmer = JSON.parse(API.createFarmerSync(params));
       log(JSON.stringify(farmer));
       params.putSync("id", farmer.id);
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < produce; i++) {
          API.manageMaterialSync(params.putSync("material_id", 0).putSync("amount", size));
          API.manageMaterialSync(params.putSync("material_id", 1).putSync("amount", size));
          API.manageMaterialSync(params.putSync("material_id", 2).putSync("amount", size));
@@ -208,8 +204,50 @@ function _test(req, res) {
          log(JSON.stringify(crop));
       }
    }
-   res.send("Test Data Generated.");
+   res.send("Test Data Generated: member = " + member + ", produce = " + produce);
 }
+/*
+ if (retVal.error) {
+ res.send(retVal);
+ } else {
+ var session_id = retVal.session_id;
+ var bot_id = retVal.bot_id;
+ var title = retVal.title;
+ var description = retVal.description;
+ var hashcode = retVal.hashcode;
+ var questionaire = 'https://docs.google.com/forms/d/e/1FAIpQLSfJp_2eClROlSundBdQHCbcA3ykSmT590D-hgBQgIJDmO8Hcw/viewform?entry.873951504=';
+ //                      'https://goo.gl/forms/ykI3IPfCiGJABeQg2'
+ res.write('<!-- Begin stream -->\n');
+ fs.createReadStream(path.join(__dirname, '/index.html'))
+ .pipe(getParser(session_id, bot_id, title, description, hashcode, questionaire))
+ .on('end', () => res.write('\n<!-- End stream -->'))
+ .pipe(res);
+ }
+ 
+ function getParser(session_id, bot_id, title, description, hashcode, questionaire) {
+ var parser = new Transform();
+ parser._transform = function (data, encoding, done) {
+ const str = data.toString()
+ .replace('{{service_url}}', service_url)
+ .replace('{{session_id}}', session_id)
+ .replace('{{bot_id}}', bot_id)
+ .replace('{{title}}', title)
+ .replace('{{description}}', description)
+ .replace('{{hashcode}}', hashcode)
+ .replace('{{questionaire}}', questionaire);
+ this.push(str);
+ done();
+ };
+ return parser;
+ }
+ }
+ */
+function _client(req, res) {
+//   var params = getIncomingParams(req.query);
+   res.sendFile(path.join(__dirname + '/join.html'));
+}
+
+
 /*
  var params = {
  stage: 'begin',
