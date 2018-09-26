@@ -4,11 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npm server.js"
+    "start": "node webapp/server.js"
   },
   "author": "Jonathan Chang, Chun-yien <ccy@musicapoetica.org>",
   "license": "Apache-2.0",
   "dependencies": {
-    "java": "^0.10.0"
+    "express": "^4.16.3",
+    "forever": "^0.15.3",
+    "java": "^0.10.0",
+    "supertest": "^3.3.0"
   }
 }
