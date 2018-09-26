@@ -1,0 +1,14 @@
+{
+  "name": "beancoinprototype",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "npm server.js"
+  },
+  "author": "Jonathan Chang, Chun-yien <ccy@musicapoetica.org>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "java": "^0.10.0"
+  }
+}
