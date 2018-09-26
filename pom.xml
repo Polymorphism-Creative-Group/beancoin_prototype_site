@@ -26,10 +26,36 @@
                     </webResources>
                 </configuration>
             </plugin> 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
+                            <!--<outputDirectory>target/classes/lib</outputDirectory>-->
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <encoding>UTF-8</encoding>
+                        </configuration>
+                    </execution>
+                </executions>   
+            </plugin>
         </plugins>
     </build>
     <dependencies>
-
+        <dependency>
+            <groupId>tech.metacontext.beancoin</groupId>
+            <artifactId>Commons</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
 

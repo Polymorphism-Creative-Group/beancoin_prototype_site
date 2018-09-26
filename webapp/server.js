@@ -29,9 +29,9 @@ java.classpath.push('target/classes');
 /*
  * Test Java Environment
  */
-var ilya_bot = 'io.xtrea.bot.ilya_bot.';
-var GamePlay = java.callStaticMethodSync(ilya_bot + 'interfaces.GamePlayImpl', 'getInstance');
-var Settings = java.import(ilya_bot + 'tool.Settings');
+var bcp = 'tech.metacontext.beancoin.common.';
+var GamePlay = java.callStaticMethodSync(bcp + 'intf.APIImpl', 'getInstance');
+var Settings = java.import(bcp + 'Settings');
 var JsonObject = java.import('org.json.JSONObject');
 
 function getIncomingParams(arr) {
@@ -72,8 +72,6 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 })
-        .use('/game_data',
-                express.static(path.join(__dirname, '/../game_data')))
         .use('/css',
                 express.static(path.join(__dirname, '/./css')))
         .use('/images',
@@ -85,18 +83,16 @@ app.use(function (req, res, next) {
 
 var commands = {
 
-    createSession:
-            {route: "/createSession", method: "POST", handler: _createSession},
-    gamePlay:
-            {route: "/gp/:session_key", method: "GET", handler: _gamePlay},
-    listAvailableBots:
-            {route: "/", method: "GET", handler: _listAvailableBots},
-    createSessionWithBotId:
-            {route: "/bot/:id", method: "GET", handler: _createSessionWithBotId},
-    currentNode:
-            {route: "/current/:session", method: "GET", handler: _current},
-    followNext:
-            {route: "/follow/:session/:article?", method: "ALL", handler: _follow},
+    createFarmer:
+            {route: "/createFarmer", method: "POST", handler: _createFarmer},
+    getFarmer:
+            {route: "/gp/:id", method: "GET", handler: _getFarmer},
+    getMembers:
+            {route: "/getMembers", method: "GET", handler: _getMembers},
+    register:
+            {route: "/", method: "POST", handler: _register},
+    setBeanCoinRatio:
+            {route: "/bot/:id", method: "GET", handler: _setBeanCoinRatio},
     test:
             {route: "/test", method: "GET", handler: _test},
     undefined:
@@ -124,15 +120,15 @@ Object.keys(commands).forEach((key) => {
 
 
 
-function _createSession(req, res) {
+function _createFarmer(req, res) {
     var params = getIncomingParams(req.body);
     var retVal = JSON.parse(GamePlay.createSessionSync(params));
     res.send(retVal);
 }
 
-function _gamePlay(req, res) {
-    var session_key = req.params.session_key;
-    var params = getIncomingParams(req.query).putSync('session_key', session_key);
+function _getFarmer(req, res) {
+    var id = req.params.id;
+    var params = getIncomingParams(req.query).putSync('id', id);
     var retVal = JSON.parse(GamePlay.gamePlaySync(params));
     if (retVal.error) {
         res.send(retVal);
@@ -169,24 +165,18 @@ function _gamePlay(req, res) {
     }
 }
 
-function _listAvailableBots(req, res) {
+function _register(req, res) {
     var bot_list = JSON.parse(GamePlay.listAvailableBotsSync());
     res.send(bot_list);
 }
 
-function _createSessionWithBotId(req, res) {
+function _setBeanCoinRatio(req, res) {
     var id = req.params.id;
     var bot_session = JSON.parse(GamePlay.createSessionSync(id, Settings.Mode.PUBLISH));
     res.send(bot_session);
 }
 
-function _current(req, res) {
-    var current_node = JSON.parse(GamePlay.getCurrentNodeSync(req.params.session));
-    log(JSON.stringify(current_node));
-    res.send(current_node);
-}
-
-function _follow(req, res) {
+function _getMembers(req, res) {
     var reaction = new JsonObject();
     if (req.params.article) {
         reaction.putSync('selected', req.params.article);
