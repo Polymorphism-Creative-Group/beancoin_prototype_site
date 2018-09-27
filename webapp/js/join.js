@@ -38,14 +38,14 @@ $(() => {
     if (!isNaN(size) && size > 0 && size <= 10.0) {
       $('#submit').attr('disabled', true);
       $("#size").attr('disabled', true);
-      $('#message').text('??��?�中...');
+      $('#message').text('處理中...');
       socket.emit("join", {
         client: socket.id,
         size: size
       });
     } else {
       $('#size').val("");
-      $('#message').text('請�?�新輸入');
+      $('#message').text('請重新輸入');
     }
   });
   socket.on('message', function (data) {
