@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Copyright 2018 Jonathan Chang, Chun-yien <ccy@musicapoetica.org>.
+Copyright 2018 Jonathan Chang.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,11 +21,11 @@ limitations under the License.
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <meta name="farmer_id" content="@" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/join_style.css"/>
+    <link rel="stylesheet" href="/css/main_style.css"/>
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
     <script src="/config.js"></script>
-    <script src="/js/join.js"></script>
+    <script src="/js/main.js"></script>
   </head>
   <body>
     <div style="display: flex; justify-content: center;">
@@ -35,34 +35,23 @@ limitations under the License.
             <td align="center" colspan="2">
               <img id='logo' onload="resizeImage()" src ="" alt="logo"/>
               <h1>Title</h1>
-              <h2>Subtitle</h2>
-              <h3>Version</h3>
-            </td>
-          </tr>
-          <tr>
-            <td style="height:55px;" colspan="2">
-              <div style="display: flex; justify-content: center;">
-                <div class="box">
-                  <div class="container-1">
-                    <div style="float:left">
-                      <span class="icon"><i class="fa fa-file"></i></span>
-                    </div>
-                    <input id="size" type="search" placeholder="請輸入田地大小（10為上限）">
-                  </div>
-                </div>
-              </div> 
+              <h2 id="farmer">Farmer</h2>
+              <h3 id="size">Size</h3>
+              <h3 id="cash">Cash</h3>
+              <h3 id="beancoin">Beancoin</h3>
+              <div id="message" class="middle"></div>
             </td>
           </tr>
           <tr>
             <td>
-              <div id="message" class="left"></div>
+              <button id="produce" class="left myButton" type="button">生產作物</button>
             </td>
             <td>
-              <button id="submit" class="right myButton" type="button">加入聯盟</button>
+              <button id="manage" class="right myButton" type="button">管理資財</button>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>       
+    </div>      
   </body>
 </html>
