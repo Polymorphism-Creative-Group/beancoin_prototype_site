@@ -115,9 +115,9 @@
         <configuration>
           <!--Client-side source directories-->
           <includes>
-            <include>**/client/**/*.java</include>
+<!--            <include>**/client/**/*.java</include>
             <include>**/client_js/**/*.java</include>
-            <include>**/data_model/**/*.java</include>
+            <include>**/data_model/**/*.java</include>-->
           </includes>
           <verbose>true</verbose>
           <tsOut>target/ts</tsOut>
