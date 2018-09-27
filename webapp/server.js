@@ -117,6 +117,7 @@ var commands = {
     commands[key].handler(req, res);
   }
 };
+
 Object.keys(commands).forEach((key) => {
   switch (commands[key].method) {
     case "ALL":
@@ -130,6 +131,7 @@ Object.keys(commands).forEach((key) => {
       break;
   }
 });
+
 function _createFarmer(req, res) {
   var params = getIncomingParams(req.body);
   var retVal = JSON.parse(API.createSessionSync(params));
@@ -200,7 +202,7 @@ function _test(req, res) {
   var member = (req.query.member) ? req.query.member : 5;
   var produce = (req.query.produce) ? req.query.produce : 10;
   for (var j = 0; j < member; j++) {
-    var size = j + 1.0;
+    var size = (j + 1.0) % 10.0;
     var params = new JsonObject().putSync("size", size);
     var farmer = JSON.parse(API.createFarmerSync(params));
     log(JSON.stringify(farmer));
