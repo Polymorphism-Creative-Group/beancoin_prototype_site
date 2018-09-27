@@ -31,7 +31,7 @@ java.classpath.push('target/classes');
  */
 var bcp = 'tech.metacontext.beancoin.common.';
 var API = java.callStaticMethodSync(bcp + 'intf.APIImpl', 'getInstance');
-var CLIENT = java.import('tech.metacontext.beancoin.client.Join');
+//var CLIENT = java.import('tech.metacontext.beancoin.client.Join');
 var Settings = java.import(bcp + 'Settings');
 var JsonObject = java.import('org.json.JSONObject');
 
@@ -110,7 +110,7 @@ var commands = {
           {route: "/setBeanCoinRatio", method: "GET", handler: _setBeanCoinRatio},
 
   client:
-          {route: "/client", method: "GET", handler: _client},
+          {route: "/", method: "GET", handler: _client},
   undefined:
           {route: "/:page?", method: "GET", handler: _default},
 

@@ -3,8 +3,8 @@
 $(() => {
     $('title').text(PROJECT.TITLE_MAIN + ' | ' + PROJECT.TITLE_ENGLISH);
     $('h1').text(PROJECT.TITLE_MAIN);
-    $('h2').text(PROJECT.SUBTITLE);
-    $('h3').text(PROJECT.VERSION);
+//    $('h2').text(PROJECT.SUBTITLE);
+//    $('h3').text(PROJECT.VERSION);
     $('h1').css({
         'font-family': MAIN.FONT,
         color: MAIN.TITLE_COLOR
