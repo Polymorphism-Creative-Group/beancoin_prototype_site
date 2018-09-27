@@ -34,10 +34,8 @@ var API = java.callStaticMethodSync(bcp + 'intf.APIImpl', 'getInstance');
 //var CLIENT = java.import('tech.metacontext.beancoin.client.Join');
 var Settings = java.import(bcp + 'Settings');
 var JsonObject = java.import('org.json.JSONObject');
-
 log(Settings.PROJECT.TITLE);
 log(Settings.PROJECT.ORG);
-
 function getIncomingParams(arr) {
   var jsonObject = new JsonObject();
   for (var key in arr) {
@@ -108,18 +106,17 @@ var commands = {
           {route: "/getTransactions", method: "GET", handler: _getTransactions},
   setBeanCoinRatio:
           {route: "/setBeanCoinRatio", method: "GET", handler: _setBeanCoinRatio},
-
   client:
-          {route: "/", method: "GET", handler: _client},
+          {route: "/", method: "GET", handler: _join},
+  main:
+          {route: "/main", method: "GET", handler: _main},
   undefined:
           {route: "/:page?", method: "GET", handler: _default},
-
   handler: (req, res, key) => {
     log('* incoming request: ' + key);
     commands[key].handler(req, res);
   }
 };
-
 Object.keys(commands).forEach((key) => {
   switch (commands[key].method) {
     case "ALL":
@@ -133,7 +130,6 @@ Object.keys(commands).forEach((key) => {
       break;
   }
 });
-
 function _createFarmer(req, res) {
   var params = getIncomingParams(req.body);
   var retVal = JSON.parse(API.createSessionSync(params));
@@ -188,6 +184,16 @@ function _setBeanCoinRatio(req, res) {
   var params = getIncomingParams(req.query);
   var result = JSON.parse(API.setBeanCoinRatioSync(params));
   res.send(result);
+}
+
+function _join(req, res) {
+//   var params = getIncomingParams(req.query);
+  res.sendFile(path.join(__dirname + '/join.html'));
+}
+
+function _main(req, res) {
+//   var params = getIncomingParams(req.query);
+  res.sendFile(path.join(__dirname + '/main.html'));
 }
 
 function _test(req, res) {
@@ -245,10 +251,7 @@ function _test(req, res) {
  }
  }
  */
-function _client(req, res) {
-//   var params = getIncomingParams(req.query);
-  res.sendFile(path.join(__dirname + '/join.html'));
-}
+
 
 
 /*
@@ -310,7 +313,6 @@ var server = app.listen(port, function () {
   console.log('Listening to ' + host + ':' + port);
   console.log('service_url = ' + service_url);
 });
-
 function log(obj) {
   var date = new Date();
   var hour = date.getHours();
