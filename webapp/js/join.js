@@ -39,10 +39,11 @@ $(() => {
       $('#submit').attr('disabled', true);
       $("#size").attr('disabled', true);
       $('#message').text('處理中...');
-      socket.emit("join", {
-        client: socket.id,
-        size: size
-      });
+//      socket.emit("join", {
+//        client: socket.id,
+//        size: size
+//      });
+      window.location.href = "http://bcp.metacontext.tech:5000/main";
     } else {
       $('#size').val("");
       $('#message').text('請重新輸入');
