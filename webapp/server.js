@@ -202,7 +202,7 @@ function _test(req, res) {
   var member = (req.query.member) ? req.query.member : 5;
   var produce = (req.query.produce) ? req.query.produce : 10;
   for (var j = 0; j < member; j++) {
-    var size = (j + 1.0) % 10.0;
+    var size = j % 10.0 + 1.0;
     var params = new JsonObject().putSync("size", size);
     var farmer = JSON.parse(API.createFarmerSync(params));
     log(JSON.stringify(farmer));
