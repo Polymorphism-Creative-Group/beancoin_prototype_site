@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+Copyright 2018 Jonathan Chang.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="farmer_id" content="@" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main_style.css"/>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="/config.js"></script>
+    <script src="/js/produce.js"></script>
+  </head>
+  <body>
+    <div style="display: flex; justify-content: center;">
+      <table style="border:0; width:auto; table-layout:auto;">
+        <tbody>
+          <tr>
+            <td align="center" colspan="2">
+              <img id='logo' onload="resizeImage()" src ="" alt="logo"/>
+              <h1>Title</h1>
+              <h2 id="farmer">收成狀況</h2>
+              <h3 id="size">收成量：19,059公斤</h3>
+              <h3 id="size">含水率：20%</h3>
+              <h3 id="size">夾雜率：2.5%</h3>
+              <h3 id="size">濁度檢測：1</h3>
+              <h3 id="size">收購價格分級：良級</h3>
+              <h3 id="cash">收購總額：667,065元</h3>
+              <h3 id="beancoin">獲得豆幣：300,000枚</h3>
+              <div id="message" class="middle"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button id="produce" class="right myButton" type="button">回主畫面</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>      
+  </body>
+</html>

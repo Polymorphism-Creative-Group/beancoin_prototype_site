@@ -110,6 +110,8 @@ var commands = {
           {route: "/", method: "GET", handler: _join},
   main:
           {route: "/main", method: "GET", handler: _main},
+  produce:
+          {route: "/produce", method: "GET", handler: _produce},
   undefined:
           {route: "/:page?", method: "GET", handler: _default},
   handler: (req, res, key) => {
@@ -196,6 +198,11 @@ function _join(req, res) {
 function _main(req, res) {
 //   var params = getIncomingParams(req.query);
   res.sendFile(path.join(__dirname + '/main.html'));
+}
+
+function _produce(req, res) {
+//   var params = getIncomingParams(req.query);
+  res.sendFile(path.join(__dirname + '/produce.html'));
 }
 
 function _test(req, res) {
