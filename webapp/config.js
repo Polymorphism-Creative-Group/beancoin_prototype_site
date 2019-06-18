@@ -72,5 +72,5 @@ var DATA = {
 };
 
 if (typeof window === 'undefined') {
-  module.exports = {PROJECT, LUNA, JOIN, DATA};
+  module.exports = {PROJECT, MAIN, JOIN, DATA};
 }
