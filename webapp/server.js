@@ -53,13 +53,14 @@ var os = require('os');
 var networkInterfaces = os.networkInterfaces();
 var request = require('supertest');
 //var Transform = require('stream').Transform;
-var forever = require('forever');
+//var forever = require('forever');
 var port = 5000;
-var service_url = 'http://' + (
-        process.env.npm_config_serviceUrl
-        || process.env.npm_package_config_serviceUrl
-        || forever.config.store.serviceUrl
-        ) + ':' + port + '/';
+var service_url = require('./config').JOIN.URL
+        || ('http://' + (
+          process.env.npm_config_serviceUrl
+          || process.env.npm_package_config_serviceUrl
+//        || forever.config.store.serviceUrl
+        ) + ':' + port + '/');
 /*
  * Express Init
  */
